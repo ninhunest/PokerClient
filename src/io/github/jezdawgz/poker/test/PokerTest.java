@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Jeremy Collette
+ * Copyright (C) 2015-2016 Jeremy Collette
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,11 +29,10 @@ import java.net.Socket;
  */
 public class PokerTest {
     
-    private static final int NUM_CLIENTS = 8;
+    private static final int NUM_CLIENTS = 3;
     
     public static void main(String[] args)
-    {
-    
+    {    
         try
         {                       
             PokerServer ps = new PokerServer(NUM_CLIENTS, 3000, 5, 10);

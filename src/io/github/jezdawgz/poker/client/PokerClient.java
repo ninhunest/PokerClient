@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Jeremy Collette
+ * Copyright (C) 2015-2016 Jeremy Collette
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ import java.net.Socket;
  */
 public class PokerClient implements Runnable {
     
-    public static final String VERSION = "0.9.1";
+    public static final String VERSION = "0.9.2 (dev)";
    
     public static class PokerClientInitException extends Exception
     {
@@ -160,8 +160,8 @@ public class PokerClient implements Runnable {
             } 
             catch (Exception ex) 
             {
+                screen.exitDueToError(ex);
                 break;
-                //throw new RuntimeException("Error reading event!");
             }
 
            screen.receiveEvent(e);
@@ -183,6 +183,7 @@ public class PokerClient implements Runnable {
             /* We don't care! */
         }
         
+        
     }
     
     
@@ -200,12 +201,12 @@ public class PokerClient implements Runnable {
         @Override
         public void run()
         {        
-            while(true)
+            while(client.isDisplayable())
             {
                 Event e = client.getNextClientEvent();
                 if (e != null)
                 {
-                    System.out.println("Sending event to server: "+e.toString());
+                    //System.out.println("Sending event to server: "+e.toString());
                     try
                     {
                         eventStream.writeObject(e);

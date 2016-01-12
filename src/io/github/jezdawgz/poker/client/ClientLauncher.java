@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Jeremy Collette
+ * Copyright (C) 2015-2016 Jeremy Collette
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +25,13 @@ import java.net.Socket;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner.NumberEditor;
 
+/*
+    TODO: Fix buttons disabled on error
+    TODO: Fix upper-bound raise on slider
+
+*/
+
+
 /**
  * Used to get connection properties for connecting to a {@link PokerServer}
  * @author Jeremy Collette
@@ -41,6 +48,11 @@ public class ClientLauncher extends javax.swing.JFrame {
         
         getRootPane().setDefaultButton(btnConnect);
         spnPort.setEditor(new NumberEditor(spnPort, "0"));
+        
+        /* Set focus to name and highlight text */     
+        txtName.selectAll();
+        
+                
     }
     
     public String getName()
@@ -83,8 +95,13 @@ public class ClientLauncher extends javax.swing.JFrame {
         btnConnect = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         txtHost = new javax.swing.JTextField();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        mnuMain = new javax.swing.JMenu();
+        mnuAbout = new javax.swing.JMenuItem();
+        mnuLicense = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Server Details");
@@ -111,6 +128,28 @@ public class ClientLauncher extends javax.swing.JFrame {
         jLabel5.setText("User Nickname:");
 
         txtHost.setText("localhost");
+
+        mnuMain.setText("Help");
+
+        mnuAbout.setText("About");
+        mnuAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuAboutActionPerformed(evt);
+            }
+        });
+        mnuMain.add(mnuAbout);
+
+        mnuLicense.setText("License");
+        mnuLicense.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuLicenseActionPerformed(evt);
+            }
+        });
+        mnuMain.add(mnuLicense);
+
+        jMenuBar1.add(mnuMain);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -149,7 +188,7 @@ public class ClientLauncher extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -201,14 +240,46 @@ public class ClientLauncher extends javax.swing.JFrame {
         catch(IOException e)
         {
             JOptionPane.showMessageDialog(null, "Connection failed!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }        
         catch(PokerClientInitException e)
         {
             JOptionPane.showMessageDialog(null, "Error connecting: "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }        
         this.setVisible(false);
 
     }//GEN-LAST:event_btnConnectActionPerformed
+
+    private void mnuAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAboutActionPerformed
+        JOptionPane.showMessageDialog(this, 
+          "PokerClient "+PokerClient.VERSION+"\n\n"
+                  + "Copyright (C) 2015-2016 Jeremy Collette"
+                  + "",
+          "About",
+          JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_mnuAboutActionPerformed
+
+    private void mnuLicenseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLicenseActionPerformed
+        JOptionPane.showMessageDialog(this, 
+            "Copyright (C) 2015-2016 Jeremy Collette." +
+            "\n\n"+
+                    
+            "This program is free software: you can redistribute it and/or modify\n" +
+            "it under the terms of the GNU General Public License as published by\n" +
+            "the Free Software Foundation, either version 3 of the License, or\n" +
+            "(at your option) any later version.\n" +
+            "\n" +
+            "This program is distributed in the hope that it will be useful,\n" +
+            "but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
+            "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n" +
+            "GNU General Public License for more details.\n" +
+            "\n" +
+            "You should have received a copy of the GNU General Public License\n" +
+            "along with this program.  If not, see <http://www.gnu.org/licenses/>.",
+            "License",
+            JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_mnuLicenseActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -218,6 +289,10 @@ public class ClientLauncher extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem mnuAbout;
+    private javax.swing.JMenuItem mnuLicense;
+    private javax.swing.JMenu mnuMain;
     private javax.swing.JSpinner spnPort;
     private javax.swing.JTextField txtHost;
     private javax.swing.JTextField txtName;
