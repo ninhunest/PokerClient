@@ -125,6 +125,12 @@ public class GameScreen extends javax.swing.JFrame {
         {
             btnCall.setEnabled(false);
         }
+        /* We don't want to be able to 'Check' if there are chips on the table! */
+        else
+        {
+            btnCheck.setEnabled(false);
+        }
+        
         
     }
           
@@ -174,13 +180,13 @@ public class GameScreen extends javax.swing.JFrame {
 
             if (newBet == 0)
             {
-                btnCheck.setEnabled(isItOurTurn());
+                //btnCheck.setEnabled(btnCheck.isEnabled());
                 btnBet.setEnabled(false);
             }
             else
             {
-                btnCheck.setEnabled(ourChipsOnTable >= currentBet && isItOurTurn());
-                btnBet.setEnabled(isItOurTurn());
+                
+                //btnBet.setEnabled(btnBet.isEnabled());
 
                 if (newBet < ourChips)
                 {
@@ -222,6 +228,7 @@ public class GameScreen extends javax.swing.JFrame {
         
         setRaiseAmount(minBet);
     }
+    
     
     /**
      * Get the current raise/bet amount
@@ -292,8 +299,8 @@ public class GameScreen extends javax.swing.JFrame {
         
         if(toActIndex == playerIndex)
         {
-            setButtonsEnabled(true);
             setMinBetAmount(minBet);
+            setButtonsEnabled(true);
             java.awt.Toolkit.getDefaultToolkit().beep();
         }
         else
@@ -413,6 +420,8 @@ public class GameScreen extends javax.swing.JFrame {
                 p.setChipsOnTable(0);
             }
             
+            ourChips = PLAYER_PANELS[playerIndex].getTotalChips();
+            
             addToLog("The community card "+c.toString()+" was dealt.");
         }
 
@@ -435,7 +444,9 @@ public class GameScreen extends javax.swing.JFrame {
             setPotAmount(evt.totalPot);
                      
             currentBet = evt.amount;
-            ourChips = PLAYER_PANELS[playerIndex].getTotalChips();        
+            ourChips = PLAYER_PANELS[playerIndex].getTotalChips();
+            setMinBetAmount(minBet);
+            
             
             /* If we put the chips on the table... */
             if (evt.playerIndex == playerIndex)
@@ -571,10 +582,10 @@ public class GameScreen extends javax.swing.JFrame {
         getContentPane().add(communityCards, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 180, 129, 31));
 
         lblBlinds.setText("Blinds: ");
-        getContentPane().add(lblBlinds, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 630, -1, -1));
+        getContentPane().add(lblBlinds, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 640, -1, -1));
 
         lblStartingStack.setText("Starting stack:");
-        getContentPane().add(lblStartingStack, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 630, -1, -1));
+        getContentPane().add(lblStartingStack, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 640, -1, -1));
         getContentPane().add(playerPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 230, -1, -1));
         getContentPane().add(playerPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 140, -1, -1));
         getContentPane().add(playerPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 80, -1, -1));
@@ -604,7 +615,7 @@ public class GameScreen extends javax.swing.JFrame {
                 btnBetActionPerformed(evt);
             }
         });
-        getContentPane().add(btnBet, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 470, 100, 31));
+        getContentPane().add(btnBet, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 470, 120, 31));
 
         lblPot.setText("Pot: 0");
         getContentPane().add(lblPot, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 250, -1, -1));
@@ -615,7 +626,7 @@ public class GameScreen extends javax.swing.JFrame {
         txtLog.setRows(5);
         jScrollPane1.setViewportView(txtLog);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 520, 370, 100));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 520, 390, 100));
 
         lblTitle.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblTitle.setText("Poker Game");

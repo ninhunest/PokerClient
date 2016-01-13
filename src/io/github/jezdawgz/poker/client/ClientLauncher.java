@@ -25,13 +25,6 @@ import java.net.Socket;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner.NumberEditor;
 
-/*
-    TODO: Fix buttons disabled on error
-    TODO: Fix upper-bound raise on slider
-
-*/
-
-
 /**
  * Used to get connection properties for connecting to a {@link PokerServer}
  * @author Jeremy Collette
