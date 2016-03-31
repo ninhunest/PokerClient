@@ -26,8 +26,9 @@ import io.github.jezdawgz.poker.server.Card.Suit;
 import io.github.jezdawgz.poker.server.Card.Value;
 import io.github.jezdawgz.poker.server.Hand;
 import io.github.jezdawgz.poker.server.HandAnalyser;
-import io.github.jezdawgz.poker.server.NewPot;
+import io.github.jezdawgz.poker.server.Pot;
 import io.github.jezdawgz.poker.server.Player;
+import java.util.ArrayList;
 
 
 /**
@@ -56,17 +57,62 @@ public class PokerCustomTest {
         
         Player[] players = new Player[]{new Player("Jeremy", null, null), new Player("Justin", null, null), new Player("Baker", null, null), new Player("Andy", null, null)};
         int JEREMY = 0, JUSTIN = 1, BAKER = 2, ANDY = 3;
-        NewPot np = new NewPot(players);
+        Pot np = new Pot(players);
 
-        np.setBet(players[JEREMY], 150);
-        np.setBet(players[JUSTIN], 150);
+        np.setBet(players[JEREMY], 500);
+        np.setBet(players[JUSTIN], 400);
         np.setBet(players[BAKER], 300);
+        
+        /*
         np.setBet(players[ANDY], 400);
         np.setBet(players[JEREMY], 200);
         np.setBet(players[JUSTIN], 400);
         np.setBet(players[BAKER], 350);
         np.setBet(players[JUSTIN], 1000);
         np.setBet(players[ANDY], 1000);
+        */
+        
+        int t = np.getTotalAmount();
+        System.out.println("Total pot: "+np.getTotalAmount());
+        //for (int i = JEREMY; i <= ANDY; i++)
+        /*
+        for (int i = BAKER; i >= JEREMY; i--)
+        {
+            int c = np.getContribution(players[i]);
+            int w = np.getWinnings(players[i]);
+            System.out.println("i: "+i+", Contrib: "+c+", Winnings: "+w+", Remaining: "+np.getTotalAmount());
+        }
+        */
+        
+        int splitsies; 
+        ArrayList<Player> p = new ArrayList<>();
+        p.add(players[JEREMY]);
+        p.add(players[JUSTIN]);
+        p.add(players[BAKER]);
+        
+        while(p.size() > 0)
+        {
+            for (Player ply : p)
+            {
+                System.out.print(ply.getName()+" ");
+            }
+            splitsies = np.getTotalSharedWinnings(p.toArray(new Player[0]));
+            System.out.println("\nSharing: "+splitsies +" ("+splitsies/p.size()+" each)");
+            ArrayList<Player> rem = new ArrayList<>();
+            for (Player ply : p)
+            {
+                if (np.getContribution(ply) == 0)
+                {
+                    rem.add(ply);
+                }
+            }
+            for (Player ply : rem)
+            {
+                p.remove(ply);
+            }
+        }
+        
+        
     }
     
 }

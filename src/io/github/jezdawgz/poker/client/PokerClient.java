@@ -33,6 +33,7 @@ import java.net.Socket;
  * 
  * @author Jeremy Collette
  */
+
 public class PokerClient implements Runnable {
     
     public static final String VERSION = "0.9.2 (dev)";
